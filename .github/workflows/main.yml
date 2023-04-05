@@ -2,7 +2,7 @@ on:
   workflow_dispatch:
   
 env:
-  kubeconfig: ${{ secrets.KUBE_CONFIG }}
+  KUBCONFIG: ${{ secrets.KUBE_CONFIG }}
 
 name: AzureLoginSample
 
@@ -13,6 +13,6 @@ jobs:
     steps:
    
     - run: |
-        echo $kubeconfig > config
-        export KUBECONFIG="./config"
+        
+        export KUBECONFIG=$KUBCONFIG
         kubectl get po -A
