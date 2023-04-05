@@ -1,8 +1,8 @@
 on: 
   workflow_dispatch:
   
-env:
-  KUBCONFIG: ${{ secrets.KUBE_CONFIG }}
+# env:
+#   KUBCONFIG: ${{ secrets.KUBE_CONFIG }}
 
 name: AzureLoginSample
 
@@ -11,10 +11,20 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-   
-    - run: |
+      - name: Log in with Azure
+        uses: azure/login@v1
+        with:
+          creds: '${{ secrets.AZURE_CREDENTIALS }}'
+      - name: az commands
+        run: |
+          az account list
+      - name: kubectl
+        run: |
+          az aks get-credentials --resource-group Go1PercentPlatform --name go1percent-aks-dev
+          kubectl get po
+#     - run: |
         
-        echo $KUBCONFIG | base64 -d > config
-        export KUBECONFIG=./config
-        kubectl config view
-        kubectl get po -A
+#         echo $KUBCONFIG | base64 -d > config
+#         export KUBECONFIG=./config
+#         kubectl config view
+#         kubectl get po -A
