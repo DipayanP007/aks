@@ -1,0 +1,18 @@
+on: 
+  workflow_dispatch:
+  
+env:
+  kubeconfig: ${{ secrets.KUBE_CONFIG }}
+
+name: AzureLoginSample
+
+jobs:
+
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+   
+    - run: |
+        echo $kubeconfig > config
+        export KUBECONFIG="./config"
+        kubectl get po -A
