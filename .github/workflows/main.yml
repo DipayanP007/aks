@@ -14,5 +14,7 @@ jobs:
    
     - run: |
         
-        export KUBECONFIG=$KUBCONFIG
+        echo $KUBCONFIG | base64 -d > config
+        export KUBECONFIG=./config
+        kubectl config view
         kubectl get po -A
